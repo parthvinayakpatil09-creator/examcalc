@@ -1,1 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <title>ExamCalc - Student Exam Calculator</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+
+<header class="navbar">
+
+    <div class="nav-container">
+
+        <a href="#home" class="logo">
+            <span class="logo-icon">🎓</span>
+
+            <div>
+                <strong>ExamCalc</strong>
+                <small>Student Tools</small>
+            </div>
+        </a>
+
+        <nav id="navMenu">
+
+            <a href="#home">Home</a>
+            <a href="#calculator">Calculator</a>
+            <a href="#features">Features</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+
+        </nav>
+
+        <button
+            class="theme-btn"
+            onclick="toggleTheme()"
+            id="themeBtn"
+        >
+            🌙
+        </button>
+
+        <button
+            class="menu-btn"
+            onclick="toggleMenu()"
+        >
+            ☰
+        </button>
+
+    </div>
+
+</header>
+
+
+<!-- ================= HOME ================= -->
+
+<section id="home" class="hero">
+
+    <div class="hero-container">
+
+        <div class="hero-content">
+
+            <span class="badge">
+                🚀 Smart Student Calculator
+            </span>
+
+            <h1>
+                Calculate Your
+                <span>Exam Score</span>
+                Easily.
+            </h1>
+
+            <p>
+                Calculate subject-wise marks, total score,
+                accuracy and percentage for competitive
+                examinations.
+            </p>
+
+            <div class="hero-buttons">
+
+                <button
+                    class="primary-btn"
+                    onclick="scrollToCalculator()"
+                >
+                    🧮 Start Calculator
+                </button>
+
+                <button
+                    class="secondary-btn"
+                    onclick="scrollToFeatures()"
+                >
+                    Explore Features
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- HERO SCORE CARD -->
+
+        <div class="hero-card">
+
+            <div class="floating-card">
+
+                <span>YOUR SCORE</span>
+
+                <div class="score">
+                    612
+                    <small>/720</small>
+                </div>
+
+                <div class="score-line">
+
+                    <span>Accuracy</span>
+                    <strong>88.4%</strong>
+
+                </div>
+
+                <div class="progress">
+
+                    <div style="width:85%"></div>
+
+                </div>
+
+                <div class="mini-subjects">
+
+                    <div>
+                        <span>⚛️ Physics</span>
+                        <strong>142</strong>
+                    </div>
+
+                    <div>
+                        <span>🧪 Chemistry</span>
+                        <strong>156</strong>
+                    </div>
+
+                    <div>
+                        <span>🧬 Biology</span>
+                        <strong>314</strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= EXAMS ================= -->
+
+<section class="exam-section">
+
+    <div class="section-heading">
+
+        <span>EXAMS</span>
+
+        <h2>Choose Your Exam</h2>
+
+        <p>
+            Select an examination to start calculating.
+        </p>
+
+    </div>
+
+
+    <div class="exam-grid">
+
+        <article
+            class="exam-card"
+            onclick="selectExam('neet')"
+        >
+
+            <div class="exam-icon">🧬</div>
+
+            <h3>NEET (UG)</h3>
+
+            <p>
+                Physics, Chemistry and Biology
+            </p>
+
+            <strong>720 Marks</strong>
+
+            <button>Calculate →</button>
+
+        </article>
+
+
+        <article
+            class="exam-card"
+            onclick="selectExam('jee')"
+        >
+
+            <div class="exam-icon">⚛️</div>
+
+            <h3>JEE Main</h3>
+
+            <p>
+                Physics, Chemistry and Mathematics
+            </p>
+
+            <strong>Paper 1</strong>
+
+            <button>Calculate →</button>
+
+        </article>
+
+
+        <article
+            class="exam-card"
+            onclick="selectExam('cet')"
+        >
+
+            <div class="exam-icon">📐</div>
+
+            <h3>MHT-CET</h3>
+
+            <p>
+                PCM and PCB groups
+            </p>
+
+            <strong>Maharashtra</strong>
+
+            <button>Calculate →</button>
+
+        </article>
+
+    </div>
+
+</section>
+
+
+<!-- ================= CALCULATOR ================= -->
+
+<section id="calculator" class="calculator-section">
+
+    <div class="calculator-wrapper">
+
+        <div class="section-heading">
+
+            <span>CALCULATOR</span>
+
+            <h2>Calculate Your Marks</h2>
+
+            <p>
+                Enter your correct, wrong and
+                unattempted questions.
+            </p>
+
+        </div>
+
+
+        <div class="calculator-card">
+
+
+            <!-- EXAM SELECT -->
+
+            <div class="select-group">
+
+                <label>Select Examination</label>
+
+                <select
+                    id="examSelect"
+                    onchange="changeExam()"
+                >
+
+                    <option value="neet">
+                        NEET (UG)
+                    </option>
+
+                    <option value="jee">
+                        JEE Main
+                    </option>
+
+                    <option value="cet">
+                        MHT-CET
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- CET GROUP -->
+
+            <div
+                id="cetGroup"
+                class="select-group hidden"
+            >
+
+                <label>MHT-CET Group</label>
+
+                <select
+                    id="cetStream"
+                    onchange="changeExam()"
+                >
+
+                    <option value="pcm">
+                        PCM
+                    </option>
+
+                    <option value="pcb">
+                        PCB
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- MARKING INFO -->
+
+            <div
+                id="markingInfo"
+                class="info"
+            ></div>
+
+
+            <!-- ERROR -->
+
+            <div
+                id="error"
+                class="error hidden"
+            ></div>
+
+
+            <!-- SUBJECTS -->
+
+            <div id="subjects"></div>
+
+
+            <!-- ACTIONS -->
+
+            <div class="calculator-actions">
+
+                <button
+                    class="calculate-btn"
+                    onclick="calculateResult()"
+                >
+                    📊 Calculate Result
+                </button>
+
+                <button
+                    class="reset-btn"
+                    onclick="resetCalculator()"
+                >
+                    🔄 Reset
+                </button>
+
+            </div>
+
+
+            <!-- ================= RESULT ================= -->
+
+            <div
+                id="result"
+                class="result hidden"
+            >
+
+                <div class="result-top">
+
+                    <div>
+
+                        <span>RESULT</span>
+
+                        <h2 id="resultExam">
+                            NEET (UG)
+                        </h2>
+
+                    </div>
+
+                    <div class="total-score">
+
+                        <small>TOTAL SCORE</small>
+
+                        <strong id="totalScore">
+                            0
+                        </strong>
+
+                        <span>
+                            / <b id="maxScore">720</b>
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- SUBJECT RESULT -->
+
+                <div class="result-box">
+
+                    <div class="result-heading">
+
+                        <span>Subject</span>
+                        <span>Marks</span>
+
+                    </div>
+
+                    <div id="resultSubjects"></div>
+
+                </div>
+
+
+                <!-- STATISTICS -->
+
+                <div class="stats">
+
+                    <div class="stat">
+
+                        <span>Correct</span>
+
+                        <strong id="correctTotal">
+                            0
+                        </strong>
+
+                    </div>
+
+                    <div class="stat">
+
+                        <span>Wrong</span>
+
+                        <strong id="wrongTotal">
+                            0
+                        </strong>
+
+                    </div>
+
+                    <div class="stat">
+
+                        <span>Attempted</span>
+
+                        <strong id="attemptedTotal">
+                            0
+                        </strong>
+
+                    </div>
+
+                    <div class="stat">
+
+                        <span>Accuracy</span>
+
+                        <strong id="accuracy">
+                            0%
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <!-- PERCENTAGE -->
+
+                <div class="percentage">
+
+                    <div>
+
+                        <span>Overall Percentage</span>
+
+                        <strong id="percentage">
+                            0%
+                        </strong>
+
+                    </div>
+
+                    <div class="percentage-icon">
+                        📈
+                    </div>
+
+                </div>
+
+
+                <!-- RESULT BUTTONS -->
+
+                <div class="result-actions">
+
+                    <button
+                        onclick="printResult()"
+                        class="print-btn"
+                    >
+                        🖨️ Print Result
+                    </button>
+
+                    <button
+                        onclick="newCalculation()"
+                        class="new-btn"
+                    >
+                        ➕ New Calculation
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= FEATURES ================= -->
+
+<section id="features" class="features">
+
+    <div class="section-heading">
+
+        <span>FEATURES</span>
+
+        <h2>Made For Students</h2>
+
+        <p>
+            Everything you need for quick score calculation.
+        </p>
+
+    </div>
+
+
+    <div class="feature-grid">
+
+        <div class="feature-card">
+
+            <div>📊</div>
+
+            <h3>Subject-wise Result</h3>
+
+            <p>
+                See the marks obtained in
+                every subject separately.
+            </p>
+
+        </div>
+
+
+        <div class="feature-card">
+
+            <div>🎯</div>
+
+            <h3>Accuracy</h3>
+
+            <p>
+                Quickly see your attempt
+                accuracy.
+            </p>
+
+        </div>
+
+
+        <div class="feature-card">
+
+            <div>📱</div>
+
+            <h3>Mobile Friendly</h3>
+
+            <p>
+                Works smoothly on phones,
+                tablets and computers.
+            </p>
+
+        </div>
+
+
+        <div class="feature-card">
+
+            <div>🖨️</div>
+
+            <h3>Print Result</h3>
+
+            <p>
+                Print or save your result
+                using your browser.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= ABOUT ================= -->
+
+<section id="about" class="about">
+
+    <div class="about-container">
+
+        <div class="about-icon">
+            🎓
+        </div>
+
+        <div>
+
+            <span>ABOUT EXAMCALC</span>
+
+            <h2>
+                A Simple Tool For Students
+            </h2>
+
+            <p>
+                ExamCalc is designed to make marks
+                calculation simple and fast for
+                students preparing for competitive
+                examinations.
+            </p>
+
+            <p>
+                Choose your examination, enter your
+                question-wise performance and get
+                a clear subject-wise result.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= CONTACT ================= -->
+
+<section id="contact" class="contact">
+
+    <div class="section-heading">
+
+        <span>CONTACT</span>
+
+        <h2>Have a Suggestion?</h2>
+
+        <p>
+            You can add your contact information here
+            when you publish the website.
+        </p>
+
+    </div>
+
+
+    <div class="contact-card">
+
+        <div>
+            📧
+            <strong>Email</strong>
+            <span>parthvinayakpatil09@gmail.com</span>
+        </div>
+
+        <div>
+            💬
+            <strong>Feedback</strong>
+            <span><href="">Help us improve ExamCalc</span>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+    <div class="footer-logo">
+        🎓 ExamCalc
+    </div>
+
+    <p>
+        Student marks calculator for
+        NEET, JEE Main and MHT-CET.
+    </p>
+
+    <div class="footer-links">
+
+        <a href="#home">Home</a>
+        <a href="#calculator">Calculator</a>
+        <a href="#features">Features</a>
+        <a href="#about">About</a>
+
+    </div>
+
+    <small>
+        © 2026 ExamCalc. For educational use.
+    </small>
+
+</footer>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>
