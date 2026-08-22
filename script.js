@@ -541,10 +541,15 @@ function validateInputs() {
 
 
         /* =====================================
-           JEE SUBJECT
+           JEE MAIN
         ===================================== */
 
         if (subject.jee) {
+
+
+            /* =================================
+               SECTION A — MCQ
+            ================================= */
 
             const mcqCorrect =
                 getValue(
@@ -562,6 +567,38 @@ function validateInputs() {
                 );
 
 
+            const mcqTotal =
+                mcqCorrect +
+                mcqWrong +
+                mcqUnattempted;
+
+
+            /*
+             * If MCQ is completely skipped,
+             * it is allowed.
+             *
+             * If MCQ is attempted,
+             * it must total 20.
+             */
+
+            if (mcqTotal !== 0) {
+
+                if (mcqTotal !== 20) {
+
+                    return (
+                        subject.name +
+                        ": Section A must total 20 questions."
+                    );
+
+                }
+
+            }
+
+
+            /* =================================
+               SECTION B — NUMERICAL
+            ================================= */
+
             const numCorrect =
                 getValue(
                     id + "NumCorrect"
@@ -578,72 +615,30 @@ function validateInputs() {
                 );
 
 
-            /*
-             * TOTAL OF ALL SIX INPUTS
-             */
-
-            const totalEntered =
-                mcqCorrect +
-                mcqWrong +
-                mcqUnattempted +
+            const numericalTotal =
                 numCorrect +
                 numWrong +
                 numUnattempted;
 
 
             /*
-             * COMPLETELY SKIPPED JEE SUBJECT
+             * If Numerical is completely skipped,
+             * it is allowed.
              *
-             * If all six values are 0,
-             * this subject is considered
-             * not attempted.
+             * If Numerical is attempted,
+             * it must total 5.
              */
 
-            if (totalEntered === 0) {
+            if (numericalTotal !== 0) {
 
-                continue;
+                if (numericalTotal !== 5) {
 
-            }
+                    return (
+                        subject.name +
+                        ": Section B must total 5 questions."
+                    );
 
-
-            /*
-             * SECTION A
-             * MUST TOTAL 20
-             */
-
-            const mcq =
-                mcqCorrect +
-                mcqWrong +
-                mcqUnattempted;
-
-
-            if (mcq !== 20) {
-
-                return (
-                    subject.name +
-                    ": Section A must total 20 questions."
-                );
-
-            }
-
-
-            /*
-             * SECTION B
-             * MUST TOTAL 5
-             */
-
-            const numerical =
-                numCorrect +
-                numWrong +
-                numUnattempted;
-
-
-            if (numerical !== 5) {
-
-                return (
-                    subject.name +
-                    ": Section B must total 5 questions."
-                );
+                }
 
             }
 
@@ -651,7 +646,7 @@ function validateInputs() {
 
 
         /* =====================================
-           NEET + MHT-CET SUBJECT
+           NEET + MHT-CET
         ===================================== */
 
         else {
@@ -681,14 +676,8 @@ function validateInputs() {
 
 
             /*
-             * COMPLETELY SKIPPED SUBJECT
-             *
-             * Any subject can be skipped.
-             *
-             * Physics = 0,0,0  -> allowed
-             * Chemistry = 0,0,0 -> allowed
-             * Biology = 0,0,0 -> allowed
-             * Mathematics = 0,0,0 -> allowed
+             * Any subject can be completely
+             * skipped with 0,0,0.
              */
 
             if (total === 0) {
@@ -699,9 +688,8 @@ function validateInputs() {
 
 
             /*
-             * IF SUBJECT IS ATTEMPTED,
-             * ALL QUESTIONS MUST BE
-             * ACCOUNTED FOR.
+             * If subject is attempted,
+             * all questions must be accounted for.
              */
 
             if (
@@ -722,10 +710,6 @@ function validateInputs() {
 
     }
 
-
-    /*
-     * NO VALIDATION ERROR
-     */
 
     return null;
 
@@ -783,9 +767,9 @@ function calculateResult() {
             let details = "";
 
 
-            /* =====================================
-               JEE CALCULATION
-            ===================================== */
+            /* =================================
+               JEE
+            ================================= */
 
             if (subject.jee) {
 
@@ -799,6 +783,12 @@ function calculateResult() {
                         id + "McqWrong"
                     );
 
+                const mcqUnattempted =
+                    getValue(
+                        id + "McqUnattempted"
+                    );
+
+
                 const numCorrect =
                     getValue(
                         id + "NumCorrect"
@@ -807,11 +797,6 @@ function calculateResult() {
                 const numWrong =
                     getValue(
                         id + "NumWrong"
-                    );
-
-                const mcqUnattempted =
-                    getValue(
-                        id + "McqUnattempted"
                     );
 
                 const numUnattempted =
@@ -852,9 +837,9 @@ function calculateResult() {
             }
 
 
-            /* =====================================
-               NEET + MHT-CET CALCULATION
-            ===================================== */
+            /* =================================
+               NEET + MHT-CET
+            ================================= */
 
             else {
 
@@ -1053,7 +1038,7 @@ function getValue(id) {
 
 
 /* =========================================
-   CREATE SAFE ID
+   MAKE ID
 ========================================= */
 
 function makeId(name) {
@@ -1066,7 +1051,7 @@ function makeId(name) {
 
 
 /* =========================================
-   SELECT EXAM CARD
+   SELECT EXAM
 ========================================= */
 
 function selectExam(exam) {
@@ -1086,7 +1071,7 @@ function selectExam(exam) {
 
 
 /* =========================================
-   SCROLL FUNCTIONS
+   SCROLL TO CALCULATOR
 ========================================= */
 
 function scrollToCalculator() {
@@ -1099,6 +1084,10 @@ function scrollToCalculator() {
 
 }
 
+
+/* =========================================
+   SCROLL TO FEATURES
+========================================= */
 
 function scrollToFeatures() {
 
@@ -1119,9 +1108,7 @@ function resetCalculator() {
 
     createSubjects();
 
-
     clearError();
-
 
     document.getElementById(
         "result"
@@ -1139,7 +1126,6 @@ function resetCalculator() {
 function newCalculation() {
 
     resetCalculator();
-
 
     scrollToCalculator();
 
@@ -1205,7 +1191,6 @@ function toggleTheme() {
 
         button.innerText = "☀️";
 
-
         localStorage.setItem(
             "theme",
             "dark"
@@ -1216,7 +1201,6 @@ function toggleTheme() {
     else {
 
         button.innerText = "🌙";
-
 
         localStorage.setItem(
             "theme",
@@ -1242,12 +1226,10 @@ if (
         "dark"
     );
 
-
     const button =
         document.getElementById(
             "themeBtn"
         );
-
 
     if (button) {
 
