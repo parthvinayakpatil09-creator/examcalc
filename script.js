@@ -2,7 +2,6 @@
    EXAMCALC VERSION 7
 ========================================= */
 
-
 let currentExam = "neet";
 
 let currentSubjects = [];
@@ -48,7 +47,8 @@ const exams = {
                 correctMark: 4,
                 wrongMark: -1
             },
-			{
+
+            {
                 name: "Zoology",
                 icon: "🧬",
                 questions: 45,
@@ -260,7 +260,9 @@ function changeExam() {
             "hidden"
         );
 
-    } else {
+    }
+
+    else {
 
         cetGroup.classList.add(
             "hidden"
@@ -404,6 +406,7 @@ function createSubjects() {
 
             }
 
+
             else {
 
                 container.innerHTML += `
@@ -537,30 +540,81 @@ function validateInputs() {
             makeId(subject.name);
 
 
+        /* =====================================
+           JEE SUBJECT
+        ===================================== */
+
         if (subject.jee) {
 
-            const mcq =
+            const mcqCorrect =
                 getValue(
                     id + "McqCorrect"
-                ) +
+                );
+
+            const mcqWrong =
                 getValue(
                     id + "McqWrong"
-                ) +
+                );
+
+            const mcqUnattempted =
                 getValue(
                     id + "McqUnattempted"
                 );
 
 
-            const numerical =
+            const numCorrect =
                 getValue(
                     id + "NumCorrect"
-                ) +
+                );
+
+            const numWrong =
                 getValue(
                     id + "NumWrong"
-                ) +
+                );
+
+            const numUnattempted =
                 getValue(
                     id + "NumUnattempted"
                 );
+
+
+            /*
+             * TOTAL OF ALL SIX INPUTS
+             */
+
+            const totalEntered =
+                mcqCorrect +
+                mcqWrong +
+                mcqUnattempted +
+                numCorrect +
+                numWrong +
+                numUnattempted;
+
+
+            /*
+             * COMPLETELY SKIPPED JEE SUBJECT
+             *
+             * If all six values are 0,
+             * this subject is considered
+             * not attempted.
+             */
+
+            if (totalEntered === 0) {
+
+                continue;
+
+            }
+
+
+            /*
+             * SECTION A
+             * MUST TOTAL 20
+             */
+
+            const mcq =
+                mcqCorrect +
+                mcqWrong +
+                mcqUnattempted;
 
 
             if (mcq !== 20) {
@@ -571,6 +625,17 @@ function validateInputs() {
                 );
 
             }
+
+
+            /*
+             * SECTION B
+             * MUST TOTAL 5
+             */
+
+            const numerical =
+                numCorrect +
+                numWrong +
+                numUnattempted;
 
 
             if (numerical !== 5) {
@@ -584,19 +649,60 @@ function validateInputs() {
 
         }
 
+
+        /* =====================================
+           NEET + MHT-CET SUBJECT
+        ===================================== */
+
         else {
 
-            const total =
+            const correct =
                 getValue(
                     id + "Correct"
-                ) +
+                );
+
+
+            const wrong =
                 getValue(
                     id + "Wrong"
-                ) +
+                );
+
+
+            const unattempted =
                 getValue(
                     id + "Unattempted"
                 );
 
+
+            const total =
+                correct +
+                wrong +
+                unattempted;
+
+
+            /*
+             * COMPLETELY SKIPPED SUBJECT
+             *
+             * Any subject can be skipped.
+             *
+             * Physics = 0,0,0  -> allowed
+             * Chemistry = 0,0,0 -> allowed
+             * Biology = 0,0,0 -> allowed
+             * Mathematics = 0,0,0 -> allowed
+             */
+
+            if (total === 0) {
+
+                continue;
+
+            }
+
+
+            /*
+             * IF SUBJECT IS ATTEMPTED,
+             * ALL QUESTIONS MUST BE
+             * ACCOUNTED FOR.
+             */
 
             if (
                 total !==
@@ -616,6 +722,10 @@ function validateInputs() {
 
     }
 
+
+    /*
+     * NO VALIDATION ERROR
+     */
 
     return null;
 
@@ -652,7 +762,6 @@ function calculateResult() {
 
     let totalAttempted = 0;
 
-
     let resultHTML = "";
 
 
@@ -673,6 +782,10 @@ function calculateResult() {
 
             let details = "";
 
+
+            /* =====================================
+               JEE CALCULATION
+            ===================================== */
 
             if (subject.jee) {
 
@@ -738,6 +851,11 @@ function calculateResult() {
 
             }
 
+
+            /* =====================================
+               NEET + MHT-CET CALCULATION
+            ===================================== */
+
             else {
 
                 correct =
@@ -773,9 +891,12 @@ function calculateResult() {
 
             grandTotal += marks;
 
+
             totalCorrect += correct;
 
+
             totalWrong += wrong;
+
 
             totalAttempted +=
                 correct + wrong;
@@ -832,7 +953,9 @@ function calculateResult() {
         0;
 
 
-    /* DISPLAY RESULT */
+    /* =========================================
+       DISPLAY RESULT
+    ========================================= */
 
     document.getElementById(
         "resultExam"
@@ -916,7 +1039,9 @@ function getValue(id) {
 
 
     if (!element) {
+
         return 0;
+
     }
 
 
@@ -953,6 +1078,7 @@ function selectExam(exam) {
 
 
     changeExam();
+
 
     scrollToCalculator();
 
@@ -993,7 +1119,9 @@ function resetCalculator() {
 
     createSubjects();
 
+
     clearError();
+
 
     document.getElementById(
         "result"
@@ -1011,6 +1139,7 @@ function resetCalculator() {
 function newCalculation() {
 
     resetCalculator();
+
 
     scrollToCalculator();
 
@@ -1076,6 +1205,7 @@ function toggleTheme() {
 
         button.innerText = "☀️";
 
+
         localStorage.setItem(
             "theme",
             "dark"
@@ -1086,6 +1216,7 @@ function toggleTheme() {
     else {
 
         button.innerText = "🌙";
+
 
         localStorage.setItem(
             "theme",
@@ -1111,13 +1242,17 @@ if (
         "dark"
     );
 
+
     const button =
         document.getElementById(
             "themeBtn"
         );
 
+
     if (button) {
+
         button.innerText = "☀️";
+
     }
 
 }
